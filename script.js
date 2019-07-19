@@ -1,10 +1,11 @@
-const cards = document.querySelectorAll(".card");
+const cards     = document.querySelectorAll(".card");
 const newButton = document.querySelector('#newGameButton');
+const score     = document.querySelector('#currentScore');
 
-let hasFlippedCard = false;
-let lockBoard = false;
 let firstCard, secondCard;
-let currentScore = 0;
+let hasFlippedCard  = false;
+let lockBoard       = false;
+let currentScore    = 0;
 
 function addClickListener() {
     cards.forEach(card => card.addEventListener('click', flipCard));
@@ -18,10 +19,14 @@ function flipCard() {
     if(!hasFlippedCard){
         hasFlippedCard = true;
         firstCard = this;
+        currentScore++;
+        updateScore();
         return;
     }
     hasFlippedCard = false;
     secondCard = this;
+    currentScore++;
+    updateScore();
 
     checkForMatch();
 }
@@ -34,7 +39,7 @@ function checkForMatch() {
 function disableCards() {
     firstCard.removeEventListener('click', flipCard);
     secondCard.removeEventListener('click', flipCard);
-    resetCards();
+    resetBoard();
 }
 
 function unflipCards() {
@@ -42,11 +47,11 @@ function unflipCards() {
     setTimeout(() => {
         firstCard.classList.remove('flip');
         secondCard.classList.remove('flip');
-        resetCards();
+        resetBoard();
     }, 1500);
 }
 
-function resetCards() {
+function resetBoard() {
     [hasFlippedCard, lockBoard] = [false, false];
     [firstCard, secondCard] = [null, null];
 }
@@ -73,9 +78,15 @@ function newGame() {
     setTimeout(() => {
         shuffle();
         resetCards();
+        currentScore = 0;
     }, 1500);
+}
+
+function updateScore(){
+    score.innerText = currentScore;
 }
 
 shuffle();
 addClickListener();
+updateScore();
 newButton.addEventListener('click', newGame);
