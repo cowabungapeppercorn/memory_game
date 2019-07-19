@@ -75,10 +75,11 @@ function shuffle() {
 function newGame() {
     resetAllCards();
     lockBoard = true;
+    currentScore = 0;
+    updateScore();
     setTimeout(() => {
         shuffle();
-        resetCards();
-        currentScore = 0;
+        resetBoard();
     }, 1500);
 }
 
