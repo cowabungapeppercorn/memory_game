@@ -19,8 +19,6 @@ function flipCard() {
     if(!hasFlippedCard){
         hasFlippedCard = true;
         firstCard = this;
-        currentScore++;
-        updateScore();
         return;
     }
     hasFlippedCard = false;
